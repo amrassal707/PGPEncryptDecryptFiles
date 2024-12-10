@@ -54,10 +54,7 @@ public class PGPManagerTest {
 
 		logger.info("encryptTest()");
 
-		pgpManager.encryptFile(filesConfigProperties.getOriginalFilePath(),
-				new FileInputStream(pgpConfigProperties.getPublicKeyFilePath()),
-				new FileOutputStream(filesConfigProperties.getEncryptFilePath()), pgpConfigProperties.isAsciiArmored(),
-				pgpConfigProperties.isIntegrityCheck());
+		pgpManager.encryptFile();
 
 		assertEquals((new File(filesConfigProperties.getEncryptFilePath())).exists(), true);
 
@@ -73,9 +70,7 @@ public class PGPManagerTest {
 
 		logger.info("decryptTest()");
 
-		pgpManager.decryptFile(new FileInputStream(filesConfigProperties.getEncryptFilePath()),
-				new FileOutputStream(filesConfigProperties.getDecryptFilePath()),
-				new FileInputStream(pgpConfigProperties.getSecretKeyFilePath()), pgpConfigProperties.getPassphrase());
+		pgpManager.decryptFile();
 
 		assertEquals((new File(filesConfigProperties.getDecryptFilePath())).exists(), true);
 

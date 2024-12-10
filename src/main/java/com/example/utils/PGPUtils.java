@@ -12,32 +12,17 @@ import java.util.Iterator;
 
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.openpgp.PGPCompressedData;
-import org.bouncycastle.openpgp.PGPCompressedDataGenerator;
-import org.bouncycastle.openpgp.PGPEncryptedData;
-import org.bouncycastle.openpgp.PGPEncryptedDataGenerator;
-import org.bouncycastle.openpgp.PGPEncryptedDataList;
-import org.bouncycastle.openpgp.PGPException;
-import org.bouncycastle.openpgp.PGPLiteralData;
-import org.bouncycastle.openpgp.PGPObjectFactory;
-import org.bouncycastle.openpgp.PGPOnePassSignatureList;
-import org.bouncycastle.openpgp.PGPPrivateKey;
-import org.bouncycastle.openpgp.PGPPublicKey;
-import org.bouncycastle.openpgp.PGPPublicKeyEncryptedData;
-import org.bouncycastle.openpgp.PGPPublicKeyRing;
-import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
-import org.bouncycastle.openpgp.PGPSecretKey;
-import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
+import org.bouncycastle.openpgp.*;
 
 public class PGPUtils {
 
 	@SuppressWarnings("unchecked")
 	public static PGPPublicKey readPublicKey(InputStream in) throws IOException, PGPException {
-		in = org.bouncycastle.openpgp.PGPUtil.getDecoderStream(in);
+		in = PGPUtil.getDecoderStream(in);
 
 		PGPPublicKeyRingCollection pgpPub = new PGPPublicKeyRingCollection(in);
 
-		//
+
 		// we just loop through the collection till we find a key suitable for
 		// encryption, in the real
 		// world you would probably want to be a bit smarter about this.

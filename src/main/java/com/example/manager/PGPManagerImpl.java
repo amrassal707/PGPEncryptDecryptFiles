@@ -1,47 +1,49 @@
 package com.example.manager;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.security.NoSuchProviderException;
-
+import com.example.configurations.FilesConfigProperties;
+import com.example.configurations.PGPConfigProperties;
+import com.example.utils.PGPUtils;
 import org.bouncycastle.openpgp.PGPException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.example.utils.PGPUtils;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.security.NoSuchProviderException;
+
 
 @Service
 public class PGPManagerImpl implements PGPManager {
 
-	private static Logger logger = LoggerFactory.getLogger(PGPManagerImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(PGPManagerImpl.class);
 
-	@Override
-	public void encryptFile(String originalFile, FileInputStream keyFile, FileOutputStream encryptFile,
-			boolean asciiArmored, boolean integrityCheck) throws NoSuchProviderException, IOException, PGPException {
+    private FilesConfigProperties filesConfigProperties;
 
-		logger.debug("encryptFile()");
+    private PGPConfigProperties pgpConfigProperties;
 
-		PGPUtils.encryptFile(encryptFile, originalFile, PGPUtils.readPublicKey(keyFile), asciiArmored, integrityCheck);
+    public PGPManagerImpl(FilesConfigProperties filesConfigProperties, PGPConfigProperties pgpConfigProperties) {
 
-		keyFile.close();
-		encryptFile.close();
+        this.filesConfigProperties = filesConfigProperties;
+        this.pgpConfigProperties = pgpConfigProperties;
 
-	}
+    }
 
-	@Override
-	public void decryptFile(FileInputStream encryptFile, FileOutputStream decryptFile, FileInputStream keyFile,
-			String passphrase) throws NoSuchProviderException, IOException, PGPException {
+    @Override
+    public void encryptFile() throws NoSuchProviderException, IOException, PGPException {
+        logger.info("encryptFile()");
+        PGPUtils.encryptFile(new FileOutputStream(filesConfigProperties.getEncryptFilePath()), filesConfigProperties.getOriginalFilePath(), PGPUtils.readPublicKey(new FileInputStream(pgpConfigProperties.getPublicKeyFilePath())), pgpConfigProperties.isAsciiArmored(), pgpConfigProperties.isIntegrityCheck());
 
-		logger.debug("decryptFile()");
 
-		PGPUtils.decryptFile(encryptFile, decryptFile, keyFile, passphrase.toCharArray());
+    }
 
-		encryptFile.close();
-		decryptFile.close();
-		keyFile.close();
+    @Override
+    public void decryptFile() throws NoSuchProviderException, IOException, PGPException {
 
-	}
+        logger.info("decryptFile()");
+
+        PGPUtils.decryptFile(new FileInputStream(filesConfigProperties.getEncryptFilePath()), new FileOutputStream(filesConfigProperties.getDecryptFilePath()), new FileInputStream(pgpConfigProperties.getSecretKeyFilePath()), pgpConfigProperties.getPassphrase().toCharArray());
+    }
 
 }
