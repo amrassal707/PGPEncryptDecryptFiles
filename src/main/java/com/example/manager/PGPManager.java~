@@ -12,6 +12,6 @@ public interface PGPManager {
 	public void encryptFile() throws NoSuchProviderException, IOException, PGPException, InterruptedException;
 
 	public void decryptFile()
-            throws NoSuchProviderException, IOException, PGPException, InterruptedException;
+			throws NoSuchProviderException, IOException, PGPException;
 
 }

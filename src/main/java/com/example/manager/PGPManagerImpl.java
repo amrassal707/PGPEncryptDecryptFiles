@@ -16,7 +16,6 @@ import java.security.NoSuchProviderException;
 
 @Service
 public class PGPManagerImpl implements PGPManager {
-
     private static Logger logger = LoggerFactory.getLogger(PGPManagerImpl.class);
 
     private FilesConfigProperties filesConfigProperties;
@@ -31,19 +30,19 @@ public class PGPManagerImpl implements PGPManager {
     }
 
     @Override
-    public void encryptFile() throws NoSuchProviderException, IOException, PGPException {
+    public void encryptFile() throws NoSuchProviderException, IOException, PGPException, InterruptedException {
         logger.info("encryptFile()");
-        PGPUtils.encryptFile(new FileOutputStream(filesConfigProperties.getEncryptFilePath()), filesConfigProperties.getOriginalFilePath(), PGPUtils.readPublicKey(new FileInputStream(pgpConfigProperties.getPublicKeyFilePath())), pgpConfigProperties.isAsciiArmored(), pgpConfigProperties.isIntegrityCheck());
+        PGPUtils.encryptFile( filesConfigProperties.getOriginalFilePath(),filesConfigProperties.getEncryptFilePath(), "amr@gmail.com");
 
 
     }
 
     @Override
-    public void decryptFile() throws NoSuchProviderException, IOException, PGPException {
+    public void decryptFile() throws NoSuchProviderException, IOException, PGPException, InterruptedException {
 
         logger.info("decryptFile()");
 
-        PGPUtils.decryptFile(new FileInputStream(filesConfigProperties.getEncryptFilePath()), new FileOutputStream(filesConfigProperties.getDecryptFilePath()), new FileInputStream(pgpConfigProperties.getSecretKeyFilePath()), pgpConfigProperties.getPassphrase().toCharArray());
+        PGPUtils.decryptFile(filesConfigProperties.getEncryptFilePath(), filesConfigProperties.getDecryptFilePath(),pgpConfigProperties.getSecretKeyFilePath(), pgpConfigProperties.getPassphrase());
     }
 
 }

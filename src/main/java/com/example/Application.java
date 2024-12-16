@@ -35,7 +35,6 @@ public class Application {
 			PGPManager pgpManager= new PGPManagerImpl(filesConfigProperties(), 	pgpConfigProperties());
 			pgpManager.encryptFile();
 			pgpManager.decryptFile();
-
 		}
 	}
 

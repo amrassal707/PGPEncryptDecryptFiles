@@ -1,6 +1,6 @@
-files.original = src/test/resources/testFile/original.txt
-files.encrypt = src/test/resources/testFile/encrypt.pgp
-files.decrypt = src/test/resources/testFIle/decrypt.txt
+files.original = src/main/resources/testFile/test.json
+files.encrypt = src/main/resources/testFile/encrypt.pgp
+files.decrypt = src/main/resources/testFIle/decrypt.json
 pgp.publicKeyFile = src/main/resources/keys/publicKey.asc
 pgp.secretKeyFile = src/main/resources/keys/secretKey.asc
-pgp.passphrase = pietro
+pgp.passphrase = amrayman

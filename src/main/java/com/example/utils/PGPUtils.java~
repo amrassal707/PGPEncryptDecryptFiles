@@ -52,7 +52,9 @@ public class PGPUtils {
 				throw new IOException("Failed to create output directory: " + parentDir.getAbsolutePath());
 			}
 		}
+
 		outputFile.delete();
+		//outputFile.createNewFile();
 
 
 
